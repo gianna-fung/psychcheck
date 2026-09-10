@@ -1,0 +1,21 @@
+# --- LLM: Claude via LangChain's Anthropic integration ---
+langchain-anthropic
+
+# --- LangChain core + the pieces we use directly ---
+langchain                  # RecursiveCharacterTextSplitter, prompt/chain helpers
+langchain-community         # PyPDFLoader lives here
+langchain-chroma            # Chroma vectorstore wrapper (separate package as of recent LangChain)
+langchain-huggingface        # HuggingFaceEmbeddings wrapper
+
+# --- Embeddings model + PDF parsing it depends on ---
+sentence-transformers        # runs all-MiniLM-L6-v2 locally, no API cost
+pypdf                        # PDF text extraction used by PyPDFLoader
+
+# --- Vector store ---
+chromadb
+
+# --- UI ---
+streamlit
+
+# --- Config ---
+python-dotenv                 # loads ANTHROPIC_API_KEY from .env

@@ -1,0 +1,22 @@
+# Secrets — never commit your real API key
+.env
+
+# Uploaded papers and anything derived from them (can be large, and
+# may not be ours to redistribute — keep them local only)
+data/uploads/
+data/chroma/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+*.egg-info/
+
+# Streamlit
+.streamlit/secrets.toml
+
+# OS / editor cruft
+.DS_Store
+.vscode/
