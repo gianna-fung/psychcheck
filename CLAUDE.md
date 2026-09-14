@@ -81,7 +81,68 @@ Every entry's citation was checked against what I could verify at write time; no
 fabricated. If you use this project for anything beyond a portfolio piece, double-check each
 citation yourself before relying on it — see the note in `data/contested_findings.json`.
 
+## Chunk size: 1000 characters, 200 overlap (20%)
+
+~1000 characters is roughly a paragraph — big enough that a chunk usually contains one complete
+idea (so it's useful on its own when retrieved in isolation), small enough that retrieval stays
+precise (a bigger chunk risks mixing several unrelated ideas together, so a question about one
+of them pulls in noise from the others). The 200-character overlap exists so a sentence sitting
+right on a chunk boundary doesn't get half-cut in both neighboring chunks — with overlap, it
+appears whole in at least one of them. Both are set as constants at the top of `src/pipeline.py`
+rather than tuned per-paper; if retrieval quality turns out to matter for grading, `eval/` is
+where that would get measured before touching these numbers.
+
+## Overview generation reads the whole paper; Q&A retrieves top-4 chunks
+
+These two features use different strategies on purpose, and it's not an inconsistency:
+
+- **The overview** (`generate_overview` in `src/pipeline.py`) needs fields that are scattered
+  across the entire paper — research question in the intro, sample size in the methods,
+  limitations usually right before the conclusion. A top-4-chunks retrieval built around one
+  question wouldn't have a "question" to retrieve against for a whole-paper summary, and would
+  likely miss most of these fields. So it reads the (size-capped) full extracted text instead.
+  This only happens once per upload, so the extra tokens are worth it.
+- **Q&A** (`answer_question`) retrieves the 4 chunks most relevant to the *specific* question
+  asked, because that happens on every question — reading the whole paper on every question
+  would be slower and more expensive for no accuracy benefit once a question is narrow enough
+  that 4 relevant chunks contain the answer.
+
+The overview's full text is capped at `MAX_OVERVIEW_CHARS` (200,000 characters) so one unusually
+long PDF can't cause an unbounded-cost API call — most journal articles are far under this.
+
+## Structured output via a pydantic model, not free-text parsing
+
+`PaperOverview` in `src/pipeline.py` is a pydantic `BaseModel` passed to
+`llm.with_structured_output(...)`, instead of asking Claude for the five overview fields in a
+paragraph and then trying to regex or string-split them back apart. This means Claude's response
+comes back as real, validated Python attributes (`overview.method`, `overview.sample_size`, ...)
+that can't silently be missing a field or be formatted inconsistently between runs — the
+structured-output feature enforces the shape.
+
+## `temperature=0` for both overview and Q&A
+
+Both tasks this app uses Claude for are meant to be faithful to the source text — extracting
+what a paper says, and answering a question from retrieved excerpts — not creative writing.
+`temperature=0` makes the model's output as deterministic as an LLM's output can be: the same
+paper text should produce close to the same overview if you run it twice.
+
+## Streamlit state: `st.session_state` + `@st.cache_resource`
+
+Streamlit re-runs the entire `src/app.py` script top-to-bottom on every user interaction (every
+button click, every text input). Two consequences shaped `app.py`:
+
+- Anything that must survive between interactions — the current paper's vectorstore, its
+  overview, and the running chat history — is stored in `st.session_state` instead of a plain
+  local variable, which would reset to empty on every re-run.
+- Anything expensive to build that doesn't change per-interaction — the embedding model and the
+  Claude client — is wrapped in `@st.cache_resource`, so it's created once per app process
+  instead of once per click.
+
+A new file upload only reprocesses the PDF (re-chunk, re-embed, re-generate the overview) when
+the uploaded filename differs from the one already processed — clicking "Ask" on a question
+doesn't accidentally re-run the whole pipeline, since Streamlit's rerun-on-every-interaction
+model would otherwise make that easy to trigger by mistake.
+
 ---
 
-*(This file grows as the project grows — the next entries will cover `src/pipeline.py`'s chunk
-size/overlap choice and `src/app.py`'s UI decisions.)*
+*(This file grows as the project grows.)*

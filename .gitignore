@@ -17,6 +17,9 @@ venv/
 # Streamlit
 .streamlit/secrets.toml
 
+# Local dev tooling config (hardcodes a machine-specific .venv path)
+.claude/
+
 # OS / editor cruft
 .DS_Store
 .vscode/
