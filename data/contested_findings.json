@@ -1,0 +1,128 @@
+{
+  "_note": "Hand-curated list of well-documented contested or failed-replication findings in psychology. Every citation here was checked against what I could verify at write time — none are fabricated. If you rely on this for anything beyond a portfolio project, re-verify each citation yourself; this is a starting point, not a systematic review.",
+
+  "findings": [
+    {
+      "id": "osc_2015_reproducibility",
+      "topic": "Psychology's replication rate (field-wide)",
+      "original_claim": "The Open Science Collaboration attempted to directly replicate 100 studies published in three major psychology journals in 2008.",
+      "original_citation": "Open Science Collaboration (2015). \"Estimating the reproducibility of psychological science.\" Science, 349(6251), aac4716.",
+      "status": "field_wide_finding",
+      "evidence_summary": "Only about 36-39% of the 100 replication attempts produced a statistically significant effect in the same direction as the original, and replicated effect sizes were on average about half the size of the originals. This is the primary citation behind the term 'replication crisis' in psychology.",
+      "replication_citations": [],
+      "keywords": ["open science collaboration", "reproducibility project", "replication crisis", "reproducibility of psychological science", "osc 2015"]
+    },
+    {
+      "id": "bem_psi_precognition",
+      "topic": "Precognition / psi effects (\"feeling the future\")",
+      "original_claim": "Bem (2011) reported nine experiments claiming evidence that people could 'feel' future events before they happened (e.g. future random stimuli affecting current recall or preference).",
+      "original_citation": "Bem, D. J. (2011). \"Feeling the future: Experimental evidence for anomalous retroactive influences on cognition and affect.\" Journal of Personality and Social Psychology, 100(3), 407-425.",
+      "status": "failed_replication",
+      "evidence_summary": "Multiple independent labs failed to replicate the effects using the same or similar procedures, and the original study's statistical methods were heavily criticized as vulnerable to false positives.",
+      "replication_citations": [
+        "Ritchie, S. J., Wiseman, R., & French, C. C. (2012). \"Failing the future: Three unsuccessful attempts to replicate Bem's 'retroactive facilitation of recall' effect.\" PLOS ONE, 7(3), e33423.",
+        "Galak, J., LeBoeuf, R. A., Nelson, L. D., & Simmons, J. P. (2012). \"Correcting the past: Failures to replicate psi.\" Journal of Personality and Social Psychology, 103(6), 933-948."
+      ],
+      "keywords": ["feeling the future", "psi effect", "precognition", "retroactive influence", "bem 2011", "anomalous cognition"]
+    },
+    {
+      "id": "schnall_handwashing",
+      "topic": "Physical cleanliness reducing moral severity of judgments",
+      "original_claim": "Schnall, Benton, and Harvey (2008) reported that people who had just washed their hands (or were otherwise made to feel clean) judged moral transgressions less harshly than people who hadn't.",
+      "original_citation": "Schnall, S., Benton, J., & Harvey, N. (2008). \"With a clean conscience: Cleanliness reduces the severity of moral judgments.\" Psychological Science, 19(12), 1219-1222.",
+      "status": "failed_replication",
+      "evidence_summary": "A pre-registered direct replication with a much larger sample found no significant effect of a handwashing manipulation on moral judgment severity. The replication (and the public dispute over how to interpret it) became a well-known flashpoint in debates over replication in social psychology.",
+      "replication_citations": [
+        "Johnson, D. J., Cheung, F., & Donnellan, M. B. (2014). \"Does cleanliness influence moral judgments?\" Social Psychology, 45(3), 209-215."
+      ],
+      "keywords": ["handwashing", "clean conscience", "cleanliness moral judgment", "moral purity", "schnall 2008"]
+    },
+    {
+      "id": "power_posing",
+      "topic": "\"Power posing\" affecting hormones and risk tolerance",
+      "original_claim": "Carney, Cuddy, and Yap (2010) reported that holding expansive, high-power body postures for two minutes raised testosterone, lowered cortisol, and increased self-reported feelings of power and risk tolerance.",
+      "original_citation": "Carney, D. R., Cuddy, A. J. C., & Yap, A. J. (2010). \"Power posing: Brief nonverbal displays affect neuroendocrine levels and risk tolerance.\" Psychological Science, 21(10), 1363-1368.",
+      "status": "failed_replication",
+      "evidence_summary": "A large, well-powered replication found no effect of posing on hormone levels and only a self-reported feeling-of-power effect, not the physiological one. A later p-curve reanalysis concluded the original evidence had no real evidential value. One of the original co-authors (Dana Carney) subsequently published a public statement saying she no longer believes the effect is real.",
+      "replication_citations": [
+        "Ranehill, E., Dreber, A., Johannesson, M., Leiberg, S., Sul, S., & Weber, R. A. (2015). \"Assessing the robustness of power posing: No effect on hormones and risk tolerance in a large sample of men and women.\" Psychological Science, 26(5), 653-656.",
+        "Simmons, J. P., & Simonsohn, U. (2017). \"Power posing: P-curving the evidence.\" Psychological Science, 28(5), 687-693."
+      ],
+      "keywords": ["power posing", "power pose", "expansive posture", "testosterone cortisol posture", "carney cuddy yap"]
+    },
+    {
+      "id": "ego_depletion",
+      "topic": "Ego depletion / limited willpower as a depletable resource",
+      "original_claim": "Baumeister, Bratslavsky, Muraven, and Tice (1998) proposed that self-control draws on a limited resource that gets depleted with use, so exerting willpower on one task leaves less willpower available for a subsequent task.",
+      "original_citation": "Baumeister, R. F., Bratslavsky, E., Muraven, M., & Tice, D. M. (1998). \"Ego depletion: Is the active self a limited resource?\" Journal of Personality and Social Psychology, 74(5), 1252-1265.",
+      "status": "failed_replication",
+      "evidence_summary": "A large-scale, pre-registered multi-lab Registered Replication Report across 23 labs found no significant ego-depletion effect. A prior meta-analysis had already flagged the original literature as showing signs of publication bias.",
+      "replication_citations": [
+        "Hagger, M. S., Chatzisarantis, N. L. D., et al. (2016). \"A multilab preregistered replication of the ego-depletion effect.\" Perspectives on Psychological Science, 11(4), 546-573.",
+        "Carter, E. C., & McCullough, M. E. (2014). \"Publication bias and the limited strength model of self-control: Has the evidence for ego depletion been overestimated?\" Frontiers in Psychology, 5, 823."
+      ],
+      "keywords": ["ego depletion", "limited willpower", "self-control resource", "baumeister 1998", "depletable resource"]
+    },
+    {
+      "id": "facial_feedback_hypothesis",
+      "topic": "Facial feedback hypothesis (holding a pen in your teeth makes you feel happier)",
+      "original_claim": "Strack, Martin, and Stepper (1988) reported that participants who held a pen with their teeth (unknowingly mimicking a smile) rated cartoons as funnier than participants who held it with their lips (unknowingly mimicking a pout).",
+      "original_citation": "Strack, F., Martin, L. L., & Stepper, S. (1988). \"Inhibiting and facilitating conditions of the human smile: A nonobtrusive test of the facial feedback hypothesis.\" Journal of Personality and Social Psychology, 54(5), 768-777.",
+      "status": "failed_replication",
+      "evidence_summary": "A pre-registered Registered Replication Report across 17 labs found an effect size close to zero for the original pen-in-mouth manipulation. Later work using video monitoring to enforce the manipulation found some support for a weaker version of the broader facial feedback idea, so this is genuinely mixed rather than a clean failure — worth noting both directions.",
+      "replication_citations": [
+        "Wagenmakers, E. J., et al. (2016). \"Registered Replication Report: Strack, Martin, & Stepper (1988).\" Perspectives on Psychological Science, 11(6), 917-928."
+      ],
+      "keywords": ["facial feedback hypothesis", "pen in mouth", "pen in teeth smile", "strack martin stepper"]
+    },
+    {
+      "id": "social_priming_elderly_walking",
+      "topic": "Social priming (reading elderly-related words makes people walk slower)",
+      "original_claim": "Bargh, Chen, and Burrows (1996) reported that participants primed with words related to old-age stereotypes subsequently walked more slowly down a hallway than participants primed with neutral words.",
+      "original_citation": "Bargh, J. A., Chen, M., & Burrows, L. (1996). \"Automaticity of social behavior: Direct effects of trait construct and stereotype activation on action.\" Journal of Personality and Social Psychology, 71(2), 230-244.",
+      "status": "failed_replication",
+      "evidence_summary": "A replication that added a double-blind procedure (so the experimenters timing participants did not know which condition they were in) found no effect, suggesting the original result may have been driven by experimenter expectancy rather than the priming manipulation itself. This became a widely cited example in the broader 'social priming' replication debate.",
+      "replication_citations": [
+        "Doyen, S., Klein, O., Pichon, C. L., & Cleeremans, A. (2012). \"Behavioral priming: It's all in the mind, but whose mind?\" PLOS ONE, 7(1), e29081."
+      ],
+      "keywords": ["social priming", "elderly prime walking", "stereotype activation walking speed", "bargh chen burrows"]
+    },
+    {
+      "id": "marshmallow_test_reanalysis",
+      "topic": "The marshmallow test predicting life outcomes",
+      "original_claim": "Mischel and colleagues' original delay-of-gratification studies (starting in the late 1960s-1970s) became widely cited as showing that a preschooler's ability to resist eating one marshmallow now (to get two later) strongly predicts later life outcomes like academic achievement.",
+      "original_citation": "Mischel, W., Shoda, Y., & Rodriguez, M. L. (1989). \"Delay of gratification in children.\" Science, 244(4907), 933-938. (Popularized broadly beyond this specific paper.)",
+      "status": "contested_effect_size",
+      "evidence_summary": "A 2018 conceptual replication with a larger and more socioeconomically diverse sample found that once family background and early cognitive ability were statistically controlled for, the predictive power of the marshmallow test on later outcomes shrank to roughly half the size (or less) of what the original, smaller studies suggested. Not a failed replication so much as a correction to how strong the popular-press version of the claim is.",
+      "replication_citations": [
+        "Watts, T. W., Duncan, G. J., & Quan, H. (2018). \"Revisiting the marshmallow test: A conceptual replication investigating links between early delay of gratification and later outcomes.\" Psychological Science, 29(7), 1159-1177."
+      ],
+      "keywords": ["marshmallow test", "delay of gratification", "mischel marshmallow", "watts duncan quan"]
+    },
+    {
+      "id": "growth_mindset_effect_size",
+      "topic": "Growth mindset interventions and academic achievement",
+      "original_claim": "Dweck's mindset theory and related interventions (teaching students that intelligence is malleable rather than fixed) are widely cited in education as producing large improvements in academic achievement.",
+      "original_citation": "Dweck, C. S. (2006). Mindset: The New Psychology of Success. (Theory popularized broadly; see meta-analyses below for the effect-size evidence.)",
+      "status": "contested_effect_size",
+      "evidence_summary": "A meta-analysis of growth-mindset interventions found the average effect on academic achievement was small overall (and not statistically distinguishable from zero for most students), though somewhat larger for academically at-risk or low-SES students. A later large-scale, pre-registered national experiment found a small but real effect concentrated in specific subgroups, not the large across-the-board effect often claimed in popular accounts.",
+      "replication_citations": [
+        "Sisk, V. F., Burgoyne, A. P., Sun, J., Butler, J. L., & Macnamara, B. N. (2018). \"To what extent and under which circumstances are growth mindsets important to academic achievement? Two meta-analyses.\" Psychological Science, 29(4), 549-571.",
+        "Yeager, D. S., et al. (2019). \"A national experiment reveals where a growth mindset improves achievement.\" Nature, 573, 364-369."
+      ],
+      "keywords": ["growth mindset", "fixed mindset", "mindset intervention academic achievement", "dweck mindset"]
+    },
+    {
+      "id": "stanford_prison_experiment",
+      "topic": "Stanford Prison Experiment (guards spontaneously becoming abusive)",
+      "original_claim": "Zimbardo's 1971 study is widely cited as showing that ordinary people randomly assigned to a 'guard' role in a simulated prison will spontaneously become cruel and abusive purely because of the situational power of the role.",
+      "original_citation": "Haney, C., Banks, C., & Zimbardo, P. G. (1973). \"Interpersonal dynamics in a simulated prison.\" International Journal of Criminology and Penology, 1, 69-97.",
+      "status": "methodological_critique",
+      "evidence_summary": "Using archival audio recordings and interviews, a 2019 investigation found that guards' behavior was substantially coached and encouraged by the research team (including Zimbardo himself acting as 'prison superintendent'), rather than emerging spontaneously as originally portrayed. This undercuts the study's textbook framing as a demonstration of purely situational influence.",
+      "replication_citations": [
+        "Le Texier, T. (2019). \"Debunking the Stanford Prison Experiment.\" American Psychologist, 74(7), 823-839."
+      ],
+      "keywords": ["stanford prison experiment", "zimbardo prison study", "simulated prison guards", "le texier debunking"]
+    }
+  ]
+}
