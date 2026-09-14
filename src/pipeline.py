@@ -139,11 +139,13 @@ def build_vectorstore(chunks: list[Document]) -> Chroma:
 
 
 def get_llm() -> ChatAnthropic:
-    """Creates the Claude client. temperature=0 because both tasks we use it for —
-    extracting fields from a paper and answering questions from retrieved context —
-    are meant to be faithful to the source text, not creative. We want the same
-    input to reliably produce the same answer."""
-    return ChatAnthropic(model=MODEL_NAME, temperature=0)
+    """Creates the Claude client. No `temperature` argument: Claude Sonnet 5 (and the
+    other current-generation Claude models) removed the temperature/top_p/top_k
+    sampling controls — the API returns a 400 if you pass them — because these models
+    always reason adaptively instead. That actually fits what we want here (faithful
+    extraction and grounded answers, not creative writing) even without an explicit
+    temperature knob to turn down."""
+    return ChatAnthropic(model=MODEL_NAME)
 
 
 def generate_overview(pages: list[Document], llm: ChatAnthropic) -> PaperOverview:

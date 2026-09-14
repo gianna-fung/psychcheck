@@ -119,12 +119,17 @@ comes back as real, validated Python attributes (`overview.method`, `overview.sa
 that can't silently be missing a field or be formatted inconsistently between runs — the
 structured-output feature enforces the shape.
 
-## `temperature=0` for both overview and Q&A
+## No `temperature` setting — it's not available on this model
 
-Both tasks this app uses Claude for are meant to be faithful to the source text — extracting
-what a paper says, and answering a question from retrieved excerpts — not creative writing.
-`temperature=0` makes the model's output as deterministic as an LLM's output can be: the same
-paper text should produce close to the same overview if you run it twice.
+The first version of `get_llm()` passed `temperature=0`, on the reasoning that both tasks this
+app uses Claude for (extracting what a paper says, answering from retrieved excerpts) should be
+faithful to the source text, not creative — so turn down the randomness. That broke immediately
+against the real API: **`claude-sonnet-5` returns a 400 if you pass `temperature`, `top_p`, or
+`top_k` at all.** Anthropic removed the sampling-control parameters for this model generation —
+these models reason adaptively by default instead, and there's no manual dial to turn down.
+Found this the first time the app actually ran a live API call, which is exactly the kind of
+thing that's invisible until you test against the real service instead of just reading the
+request code. `get_llm()` now passes only `model=MODEL_NAME`.
 
 ## Streamlit state: `st.session_state` + `@st.cache_resource`
 
