@@ -1,0 +1,118 @@
+{
+  "_note": "Hand-written eval question set for PsychCheck. Every expected_key_facts entry was checked against the actual extracted PDF text (pulled with PyPDFLoader directly, not guessed from memory of the paper). Run with `python eval/run_eval.py`.",
+
+  "source_citation": "Mischel, W., Ebbesen, E. B., & Zeiss, A. R. (1972). Cognitive and attentional mechanisms in delay of gratification. Journal of Personality and Social Psychology, 21(2), 204-218.",
+  "fixture_path": "eval/fixtures/mischel_ebbesen_zeiss_1972.pdf",
+
+  "questions": [
+    {
+      "id": "f1",
+      "category": "factual",
+      "question": "How many children participated in this study, and how were they split by gender?",
+      "expected_key_facts": [
+        "50 children total",
+        "25 boys and 25 girls",
+        "from Bing Nursery School at Stanford University",
+        "ages ranged from 3 years 6 months to 5 years 6 months, mean age 4 years 6 months"
+      ]
+    },
+    {
+      "id": "f2",
+      "category": "factual",
+      "question": "What object did children use to signal the experimenter when they wanted to stop waiting?",
+      "expected_key_facts": [
+        "a desk bell"
+      ]
+    },
+    {
+      "id": "f3",
+      "category": "factual",
+      "question": "What did Experiment I find about the effect of distraction on how long children waited?",
+      "expected_key_facts": [
+        "children waited much longer for the preferred reward when distracted from the rewards",
+        "than when they attended to the rewards directly",
+        "consistent with frustrative nonreward theory"
+      ]
+    },
+    {
+      "id": "f4",
+      "category": "factual",
+      "question": "In Experiment II, what kind of thoughts helped children wait longer, and what kind produced shorter waiting times?",
+      "expected_key_facts": [
+        "thinking about 'fun things' served as an effective distractor and helped children wait longer",
+        "thinking 'sad thoughts' produced short delay times",
+        "thinking about the rewards themselves also produced short delay times"
+      ]
+    },
+    {
+      "id": "f5",
+      "category": "factual",
+      "question": "In Experiment III, what happened to children's waiting time when they were instructed to think about the rewards, even though the rewards weren't physically present?",
+      "expected_key_facts": [
+        "cognitions about the rewards significantly REDUCED delay time",
+        "this is the opposite of what direct exposure to the rewards would predict enhancing",
+        "shows the effect is about attentional/cognitive salience, not just physical presence"
+      ]
+    },
+    {
+      "id": "f6",
+      "category": "factual",
+      "question": "What two food rewards were hidden under the cake tin in the experimental room?",
+      "expected_key_facts": [
+        "a small marshmallow",
+        "a stick pretzel"
+      ]
+    },
+    {
+      "id": "flag1",
+      "category": "should_flag",
+      "question": "Does this study show that a child's ability to delay gratification at age 4 predicts their success later in life?",
+      "expected_flag_id": "marshmallow_test_reanalysis",
+      "expected_answer_behavior": "Should say the paper does NOT address long-term outcomes -- this is a single-session lab study about momentary attentional mechanisms, not a longitudinal study. The predictive-validity claim being tested here is exactly what data/contested_findings.json's marshmallow_test_reanalysis entry pushes back on, so the answer should be flagged even though this specific 1972 paper never makes the predictive claim itself -- the flag is about the topic being touched, not about the paper being wrong."
+    },
+    {
+      "id": "flag2",
+      "category": "should_flag",
+      "question": "What is 'the marshmallow test' and why is it so well known?",
+      "expected_flag_id": "marshmallow_test_reanalysis",
+      "expected_answer_behavior": "Question explicitly invokes general knowledge beyond this specific paper's content -- good test of whether the app stays grounded to the excerpts rather than answering from Claude's background knowledge. Should still flag given the topic."
+    },
+    {
+      "id": "flag3",
+      "category": "should_flag",
+      "question": "How well does a child's performance on this waiting task predict their self-control later in childhood or adulthood?",
+      "expected_flag_id": "marshmallow_test_reanalysis",
+      "expected_answer_behavior": "Same predictive-validity territory as flag1, worded differently. Paper doesn't test this longitudinally (that line of research came later), so a good answer says so -- but should still flag."
+    },
+    {
+      "id": "noflag1",
+      "category": "should_not_flag",
+      "question": "What toy was placed behind the barrier in the experimental room, and who could see or reach it?",
+      "expected_key_facts": [
+        "a 'Slinky' (a toy spring)",
+        "placed behind a barrier the experimenter, not the child, could see and reach"
+      ],
+      "risk_note": "Narrow physical/procedural fact chosen specifically to avoid needing the phrase 'delay of gratification' in a correct answer -- but Claude may still preface the answer with topic-setting language that restates it. If it flags anyway, that's a real finding about matcher precision, not a bug to silently fix."
+    },
+    {
+      "id": "noflag2",
+      "category": "should_not_flag",
+      "question": "What was the age range and mean age of the children in this study?",
+      "expected_key_facts": [
+        "3 years 6 months to 5 years 6 months",
+        "mean age 4 years 6 months"
+      ],
+      "risk_note": "Same caveat as noflag1 -- pure demographic fact, no need to reference the contested claim, but topic-setting language in the answer could still trip the matcher."
+    },
+    {
+      "id": "noflag3",
+      "category": "should_not_flag",
+      "question": "How many children began the study but were excluded, and why?",
+      "expected_key_facts": [
+        "six children",
+        "excluded because they did not comprehend the instructions"
+      ],
+      "risk_note": "Same caveat as noflag1/noflag2."
+    }
+  ]
+}

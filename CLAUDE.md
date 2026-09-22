@@ -148,6 +148,35 @@ the uploaded filename differs from the one already processed — clicking "Ask" 
 doesn't accidentally re-run the whole pipeline, since Streamlit's rerun-on-every-interaction
 model would otherwise make that easy to trigger by mistake.
 
+## `eval/`: a hand-written question set, graded by a second Claude call
+
+`eval/questions.json` has 12 questions against a real paper (Mischel, Ebbesen, & Zeiss, 1972,
+kept at `eval/fixtures/` so it's git-tracked and reproducible, unlike `data/uploads/` which is
+intentionally gitignored) — 6 factual, 3 that should trigger a contested-findings flag, 3 that
+shouldn't. `eval/run_eval.py` runs all 12 through the real pipeline and grades them.
+
+Flag-correctness grading needs no extra API call: whether the right finding (or nothing) got
+flagged is just checking a list the app already returned. Factual-correctness grading does use a
+second Claude call — comparing "children waited much longer when distracted" against "distraction
+significantly increased delay times" as the same fact requires semantic judgment a plain string
+match can't make. This is the same second-LLM-call tradeoff documented above for
+contested-findings matching, but it's the right call *inside an eval*, even though the shipped app
+avoids it: `eval/run_eval.py` isn't part of what ships or what a user waits on, so paying for a
+more careful judgment there doesn't cost the product anything.
+
+## Bug found by the eval: `response.content` can be a list, not a string
+
+The first version of `answer_question` set `answer_text = response.content` and passed it straight
+to `check_for_contested_findings`, which calls `.lower()` on it. That's a safe assumption *most*
+of the time — but running `eval/run_eval.py` hit `AttributeError: 'list' object has no attribute
+'lower'` on the very first question. Claude's response can come back as a list of content blocks
+(e.g. a thinking block plus a text block) instead of a plain string, depending on how much the
+model reasoned before answering — something a few quick manual tests in the browser hadn't
+happened to trigger, but a 12-question eval run did. Fixed by using `response.text` instead of
+`response.content` — a LangChain accessor that always returns just the visible text as a real
+string, no matter how many content blocks came back. This is exactly why the eval exists: it ran
+enough real questions to surface a bug that manual spot-checking hadn't.
+
 ---
 
 *(This file grows as the project grows.)*

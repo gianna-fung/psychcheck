@@ -1,0 +1,98 @@
+[
+  {
+    "id": "f1",
+    "category": "factual",
+    "question": "How many children participated in this study, and how were they split by gender?",
+    "answer": "Based on the excerpts provided, there appear to be at least two different studies described, with different participant details:\n\n1. **Study described on page 7** (Experiment II, according to context): Thirty-two children from the Bing Nursery School of Stanford University were initially enrolled, but six were lost due to incomplete understanding of instructions or because they ate one of the reward objects while waiting. This left a final sample of 26 children (10 subjects in each of two new conditions, and 6 in the replicated condition). The excerpt does not give exact numbers of males vs. females, only stating that \"sex ratios and ages were equated across groups\" (p. 7).\n\n2. **Study described on page 9** (a different experiment): Sixteen subjects participated, consisting of 11 males and 5 females. Half were assigned to the experimental condition, and the other half were split evenly between two control conditions (\"think fun\" and \"no ideation\") (p. 9).\n\nThere is also a fragment on page 3 mentioning \"female experimenter ran 3 female and 2 male subjects,\" but this excerpt is too brief and out of context to determine which full study it belongs to or how it fits into the overall participant count.\n\nIf you can clarify which specific study or experiment you're asking about, I can give a more precise answer.",
+    "passed": false,
+    "detail": "MISSING: 50 children total, 25 boys and 25 girls, from Bing Nursery School at Stanford University, ages ranged from 3 years 6 months to 5 years 6 months, mean age 4 years 6 months"
+  },
+  {
+    "id": "f2",
+    "category": "factual",
+    "question": "What object did children use to signal the experimenter when they wanted to stop waiting?",
+    "answer": "According to the excerpts, children used a **desk bell** placed on the table to signal the experimenter when they wanted to stop waiting. The experimenter first taught the child how to use the bell signal, playing a \"game\" in which he would step out of the room and immediately return as soon as the child rang the bell (p. 4).",
+    "passed": true,
+    "detail": "covered: a desk bell"
+  },
+  {
+    "id": "f3",
+    "category": "factual",
+    "question": "What did Experiment I find about the effect of distraction on how long children waited?",
+    "answer": "Based on the excerpts, Experiment I found that children waited much longer when they had a distractor available during the delay period, compared to when both rewards were simply present with no distractor (the condition that had produced the shortest waiting time in the prior Mischel & Ebbesen, 1970 study) (p. 3, p. 5).\n\nSpecifically, the mean delay times were substantially greater with either an **external distractor** (a toy) or an **internal/cognitive distractor** (ideation, e.g., \"thinking fun\"), with mean waiting times of **8.59 minutes** and **12.12 minutes**, respectively (p. 5).\n\nHowever, the paper also notes (p. 13) that this distracting activity was only effective in prolonging waiting when it occurred under a delay-of-reward contingency \u2014 when there was no waiting contingency, children engaging in the same distracting activities (playing with a toy or \"thinking fun\") did not stay in the room for more than a minute. This suggests that while distraction helped children wait longer for a contingent reward, it did not eliminate or override the underlying role of the reward contingency itself.",
+    "passed": false,
+    "detail": "MISSING: The comparison to attending directly to the rewards (the answer compares distraction to 'no distractor present' condition, not explicitly to attending to the rewards), No mention of consistency with frustrative nonreward theory"
+  },
+  {
+    "id": "f4",
+    "category": "factual",
+    "question": "In Experiment II, what kind of thoughts helped children wait longer, and what kind produced shorter waiting times?",
+    "answer": "Based on the excerpts, Experiment II compared \"no ideation,\" \"think fun,\" and \"think rewards\" instructional conditions (p. 9-10).\n\n- **Thoughts that helped children wait longer:** The \"no ideation\" and \"think fun\" conditions produced longer waiting times (mean waiting times of 12.12 and 13.33 minutes, respectively), and these two conditions did not differ from each other (p. 10).\n\n- **Thoughts that produced shorter waiting times:** The \"think rewards\" condition\u2014in which children were directed to think about the physically obscured reward objects\u2014produced dramatically shorter waiting times, with a mean of only .78 minute (p. 10). Notably, none of the eight children in this \"think rewards\" group waited more than 2 minutes, while five of the eight control children (across the combined \"no ideation\" and \"think fun\" conditions) waited the full 15 minutes (p. 10).\n\nThe paper concludes that these results \"utterly contradict the belief that ideating about the reward objects in their absence enhances voluntary delay of gratification for them\" (p. 10).",
+    "passed": false,
+    "detail": "MISSING: thinking about 'fun things' served as an effective distractor and helped children wait longer (answer instead groups 'think fun' with 'no ideation' as producing longer waits without identifying fun thoughts specifically as the effective distractor), thinking 'sad thoughts' produced short delay times (not mentioned at all)"
+  },
+  {
+    "id": "f5",
+    "category": "factual",
+    "question": "In Experiment III, what happened to children's waiting time when they were instructed to think about the rewards, even though the rewards weren't physically present?",
+    "answer": "Based on the excerpts, in Experiment III, when children were instructed to think about the rewards (the \"think rewards\" condition) even though the rewards were physically obscured (hidden under a cake tin during the waiting period), their average delay time was less than 1 minute (p. 10). This was extremely short\u2014essentially as difficult for them to delay gratification as when the rewards were directly visible and in their attentional field (comparable to the no-ideation condition of Experiment I) (p. 10).\n\nThis contrasted sharply with the \"think fun\" group in the same experiment, who were able to wait for extremely long periods, and with uninstructed subjects (no ideation), who also found it relatively easy to delay gratification when the rewards were not available for direct attention (p. 10).\n\nThe findings indicate that merely thinking about the rewards cognitively\u2014regardless of whether they were physically visible or absent\u2014undermined children's ability to delay gratification, suggesting that cognitive attention to the rewards themselves (not just physical presence) was the key factor impairing waiting behavior.",
+    "passed": false,
+    "detail": "MISSING: Explicit statement that this reduction is the opposite of what direct exposure to the rewards would predict (i.e., the surprising/counterintuitive nature relative to expectation that physical exposure would enhance/matter) is not clearly articulated"
+  },
+  {
+    "id": "f6",
+    "category": "factual",
+    "question": "What two food rewards were hidden under the cake tin in the experimental room?",
+    "answer": "Based on the excerpts (page 4), a small marshmallow and a stick pretzel were placed under the cake tin.",
+    "passed": true,
+    "detail": "covered: a small marshmallow, a stick pretzel"
+  },
+  {
+    "id": "flag1",
+    "category": "should_flag",
+    "question": "Does this study show that a child's ability to delay gratification at age 4 predicts their success later in life?",
+    "answer": "Based on these excerpts, no\u2014this study does not show that. The paper (Mischel, Ebbesen, & Zeiss, 1972) is an experimental investigation of the \"attentional and cognitive mechanisms\" that affect how long preschool children can wait for a preferred delayed reward versus an immediate less-preferred one (p. 1). It focuses on manipulating conditions like distraction from the reward objects, and examines how such attentional/cognitive factors affect delay time in the moment (p. 1, p. 14).\n\nThe excerpts explicitly argue against the idea that delay ability is a stable, enduring personality trait (\"ego strength\") that would presumably predict later life outcomes. Instead, the authors state: \"under appropriate motivational and attentional-cognitive conditions, virtually all subjects, even young children, could manage to delay for lengthy time periods\" (p. 14). This suggests the study's findings undercut, rather than support, the notion of delay of gratification as a fixed individual trait that could straightforwardly predict future success.\n\nThere is no mention in these excerpts of any longitudinal follow-up, later-life outcomes, or predictive validity of delay behavior for future success. The study is described as concerning immediate cognitive/attentional mechanisms during the delay task itself (p. 1, p. 13), not long-term developmental outcomes.\n\nSo, strictly from the material given, this particular paper does not provide evidence about delay of gratification at age 4 predicting later-life success\u2014that claim would come from other (later) research, such as longitudinal follow-up studies not included in these excerpts.",
+    "passed": true,
+    "detail": "expected flag 'marshmallow_test_reanalysis', got ['marshmallow_test_reanalysis']"
+  },
+  {
+    "id": "flag2",
+    "category": "should_flag",
+    "question": "What is 'the marshmallow test' and why is it so well known?",
+    "answer": "Based on the excerpts provided, I can only partially address this question, as they don't give a comprehensive description of \"the marshmallow test\" as a broader concept or explain its wider fame \u2014 that would require outside knowledge not contained in these pages.\n\nFrom what the excerpts do describe (pages 4 and 8), this appears to be an experimental paradigm in which:\n\n- A child is brought into a room where an experimenter shows them a box of attractive toys they will play with later, and introduces a desk bell the child can ring (p. 4).\n- A marshmallow and a pretzel are placed under an opaque cake tin, hidden from the child but visible/reachable to the experimenter behind a barrier (p. 4).\n- The experimenter leaves the child alone with instructions that the child can either wait for the experimenter to return on his own, or ring the bell to summon the experimenter back sooner \u2014 with the understanding that both the child and experimenter will play with the toys at the end regardless (pp. 4, 8).\n- In some conditions, children were given instructions about what to think about while waiting \u2014 e.g., \"think fun,\" \"think sad,\" or \"think food\" (thinking about the marshmallow and pretzel) \u2014 and the researchers measured how many minutes children waited before ringing the bell under these different cognitive/attentional conditions (p. 8).\n\nThe excerpts frame this as part of a study on \"cognitive and attentional mechanisms\" in delay of gratification (p. 4), comparing conditions to see how different thoughts or attentional strategies affected children's ability to wait.\n\nHowever, the excerpts do not explain why this test became so well known (e.g., any claims about its use in predicting later life outcomes, its cultural popularity, or its status as a landmark study in psychology). That information is not present in the text provided.",
+    "passed": true,
+    "detail": "expected flag 'marshmallow_test_reanalysis', got ['marshmallow_test_reanalysis']"
+  },
+  {
+    "id": "flag3",
+    "category": "should_flag",
+    "question": "How well does a child's performance on this waiting task predict their self-control later in childhood or adulthood?",
+    "answer": "Based on the excerpts provided, there is no information addressing whether performance on this waiting task predicts self-control later in childhood or adulthood. The excerpts focus on the experimental findings regarding attentional and cognitive strategies (e.g., ideation, obscuring rewards) that affect children's ability to delay gratification in the moment, and discuss theoretical implications for psychodynamic and ego-strength conceptions of self-control\u2014but they do not discuss longitudinal outcomes or predictive validity for later-life self-control. I cannot answer this question using only the excerpts given.",
+    "passed": false,
+    "detail": "expected flag 'marshmallow_test_reanalysis', got (none)"
+  },
+  {
+    "id": "noflag1",
+    "category": "should_not_flag",
+    "question": "What toy was placed behind the barrier in the experimental room, and who could see or reach it?",
+    "answer": "According to the excerpt on page 4, a \"Slinky\" (a toy spring) was placed behind the barrier, along with an opaque cake tin containing a small marshmallow and a stick pretzel. Behind this barrier, the experimenter\u2014but not the children\u2014could see and reach the items.",
+    "passed": true,
+    "detail": "no flags fired"
+  },
+  {
+    "id": "noflag2",
+    "category": "should_not_flag",
+    "question": "What was the age range and mean age of the children in this study?",
+    "answer": "Based on the excerpts provided, there appear to be two different studies described with different age ranges:\n\n1. **First study (page 7):** The subjects ranged in age from **3 years 9 months to 5 years 3 months**, with a **mean age of 4 years 9 months**. (This was based on 32 children initially, with 6 lost due to incomplete understanding or eating a reward object, leaving a final sample size described in the text.)\n\n2. **Second study (page 9):** The subjects ranged in age from **3 years 5 months to 5 years 6 months**, with a **mean age of 4 years 6 months**. (This study had 16 subjects total\u201411 males and 5 females.)\n\nIf you're asking about a specific one of these studies, let me know which, and I can clarify further based on the excerpts.",
+    "passed": true,
+    "detail": "no flags fired"
+  },
+  {
+    "id": "noflag3",
+    "category": "should_not_flag",
+    "question": "How many children began the study but were excluded, and why?",
+    "answer": "Based on the excerpts, there is information about exclusions from two different studies/experiments:\n\n1. **From the study described on Page 7**: Thirty-two children began the study, but **six of them were lost** because of \"incomplete understanding of the instructions or because they ate one of the reward objects while waiting for the experimenter.\"\n\n2. **From the study described on Page 3**: Fifty children were the final subjects (25 boys and 25 girls), but **six additional children began but did not complete the experimental procedures because they did not comprehend the instructions**.\n\nSo across the two experiments referenced in these excerpts, six children were excluded in each case, though for slightly different (though related) reasons\u2014one study cites both non-comprehension and eating the reward, while the other cites only non-comprehension of instructions.",
+    "passed": true,
+    "detail": "no flags fired"
+  }
+]

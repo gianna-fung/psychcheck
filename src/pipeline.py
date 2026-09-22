@@ -211,7 +211,13 @@ def answer_question(
             ("human", f"Excerpts from the paper:\n\n{context}\n\nQuestion: {question}"),
         ]
     )
-    answer_text = response.content
+    # .text (not .content!): Claude's response can come back as a list of content
+    # blocks (e.g. a thinking block plus a text block) rather than a plain string,
+    # depending on how much the model reasoned before answering. .text always
+    # returns just the visible text portion as a real string, regardless of how
+    # many blocks came back -- .content would sometimes hand back a list here and
+    # break check_for_contested_findings()'s .lower() call below.
+    answer_text = response.text
 
     citations = [
         Citation(page=chunk.metadata.get("page", 0) + 1, excerpt=chunk.page_content[:200])
