@@ -8,6 +8,7 @@ pipeline can be tested (or reused in a script) without needing Streamlit running
 from pathlib import Path
 
 import streamlit as st
+from langchain_anthropic.chat_models import AnthropicAuthenticationError
 
 from contested_findings import load_contested_findings
 from pipeline import (
@@ -21,6 +22,12 @@ from pipeline import (
 
 UPLOAD_DIR = Path(__file__).resolve().parent.parent / "data" / "uploads"
 
+# A scanned/image-only PDF has no embedded text layer, so PyPDFLoader returns pages
+# with little or no page_content. This is a low bar on purpose -- even a single real
+# page of a paper is thousands of characters, so anything under this is almost
+# certainly not extractable text, not a legitimately short document.
+MIN_EXTRACTED_CHARS = 200
+
 st.set_page_config(page_title="PsychCheck", page_icon="🧠")
 st.title("🧠 PsychCheck")
 st.caption(
@@ -28,6 +35,16 @@ st.caption(
     "grounded questions about it. Answers that touch a well-known contested or "
     "failed-replication finding get flagged automatically."
 )
+
+# Jump link for anyone returning to ask another question who doesn't want to
+# scroll/re-read the overview and any existing chat history first. Uses
+# st.session_state.get(...) instead of the usual st.session_state.overview because
+# this runs before the session-state initialization block below -- .get() is safe
+# against the key not existing yet, plain attribute access wouldn't be.
+# Only shown once there's actually a "Ask a question" section to jump to -- before
+# any paper is uploaded, that section doesn't exist yet, so the link would go nowhere.
+if st.session_state.get("overview") is not None:
+    st.markdown("[⤵️ Skip to Ask a Question](#ask-a-question)")
 
 
 # --- Cached, expensive-to-create objects ---
@@ -79,11 +96,36 @@ if uploaded_file is not None and uploaded_file.name != st.session_state.current_
 
     with st.spinner("Reading and indexing the paper..."):
         pages = load_pdf_pages(pdf_path)
-        chunks = split_into_chunks(pages)
-        st.session_state.vectorstore = build_vectorstore(chunks)
 
-    with st.spinner("Generating overview..."):
-        st.session_state.overview = generate_overview(pages, llm)
+    total_extracted_chars = sum(len(page.page_content) for page in pages)
+    if total_extracted_chars < MIN_EXTRACTED_CHARS:
+        # Stop here instead of feeding an almost-empty document into the rest of the
+        # pipeline -- without this check, a scanned PDF would silently produce a
+        # near-meaningless vectorstore and an overview Claude would have to guess at,
+        # despite our prompts telling it not to guess.
+        st.error(
+            "This PDF doesn't seem to have extractable text — it may be a scanned "
+            "image without a text layer. Try running it through OCR first, or "
+            "upload a different PDF."
+        )
+        st.stop()
+
+    try:
+        with st.spinner("Indexing the paper..."):
+            chunks = split_into_chunks(pages)
+            st.session_state.vectorstore = build_vectorstore(chunks)
+
+        with st.spinner("Generating overview..."):
+            st.session_state.overview = generate_overview(pages, llm)
+    except AnthropicAuthenticationError:
+        # This is the same 400/401 you'd get from any invalid key -- catching it
+        # here turns Streamlit's default raw traceback into something a user could
+        # actually act on.
+        st.error(
+            "Your Anthropic API key looks invalid or missing. Check the "
+            "ANTHROPIC_API_KEY value in your .env file, then restart the app."
+        )
+        st.stop()
 
     st.session_state.current_filename = uploaded_file.name
     st.session_state.chat_history = []  # new paper, so old Q&A no longer applies
@@ -101,17 +143,34 @@ if st.session_state.overview is not None:
     st.markdown(f"**Limitations:** {overview.limitations}")
 
     st.divider()
+    # Explicit anchor (rather than relying on Streamlit's own auto-generated header
+    # anchors, which aren't guaranteed to match a specific id) so the jump link at
+    # the top of the page has something exact to scroll to.
+    st.markdown('<div id="ask-a-question"></div>', unsafe_allow_html=True)
     st.subheader("Ask a question")
 
-    question = st.text_input("Your question about this paper", key="question_input")
-    ask_clicked = st.button("Ask")
+    # st.form (not a bare text_input + button) so pressing Enter submits the
+    # question -- outside a form, Enter just updates the text_input's value on a
+    # rerun without ever setting ask_clicked, so the button was the only way to
+    # actually submit. Inside a form, Enter triggers the form's submit button.
+    with st.form(key="question_form"):
+        question = st.text_input("Your question about this paper")
+        ask_clicked = st.form_submit_button("Ask")
 
-    if ask_clicked and question:
-        with st.spinner("Thinking..."):
-            result = answer_question(
-                st.session_state.vectorstore, llm, question, contested_findings
+    if ask_clicked and not question:
+        st.warning("Type a question first.")
+    elif ask_clicked and question:
+        try:
+            with st.spinner("Thinking..."):
+                result = answer_question(
+                    st.session_state.vectorstore, llm, question, contested_findings
+                )
+            st.session_state.chat_history.append({"question": question, "result": result})
+        except AnthropicAuthenticationError:
+            st.error(
+                "Your Anthropic API key looks invalid or missing. Check the "
+                "ANTHROPIC_API_KEY value in your .env file, then restart the app."
             )
-        st.session_state.chat_history.append({"question": question, "result": result})
 
     # Newest question first, so the answer you just asked for is right under the
     # input box instead of at the bottom of a growing list.
