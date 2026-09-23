@@ -177,6 +177,50 @@ happened to trigger, but a 12-question eval run did. Fixed by using `response.te
 string, no matter how many content blocks came back. This is exactly why the eval exists: it ran
 enough real questions to surface a bug that manual spot-checking hadn't.
 
+## Eval iteration: 58% → 75%, and why we stopped there
+
+The first real eval run scored 7/12 (58%). Digging into *why* each question failed split them into
+three different categories, and only one of the four failures was something worth changing:
+
+- **One bad ground-truth question** (`f1`): asked "how many children participated in this study"
+  with no experiment specified, but this paper reports three separate experiments with three
+  different samples. The app correctly refused to conflate them; the question was ambiguous, not
+  the answer wrong. Took two more attempts to get right — the first reword mislabeled which
+  experiment the sample actually belonged to (fixed by grepping the primary source text directly
+  instead of trusting an earlier assumption), and even after that fix, a later run showed the
+  underlying issue was actually retrieval, not the question — see below.
+- **Two overly strict grading criteria** (`f3`, `f5`): the expected facts required exact
+  theoretical phrasing pulled from the paper's *abstract* (e.g. the term "frustrative nonreward
+  theory"), but the app's answers were grounded in the more detailed *results* section instead
+  (which is what top-4 retrieval actually returned) — correct, more specific answers marked wrong
+  for not using my exact words. Loosened to the substantive claim; both now pass cleanly.
+- **One real false negative** (`flag3`): the answer said "delay gratification" (no "of"), and the
+  keyword matcher only recognized the exact phrase "delay of gratification". Fixed by adding
+  "delay gratification" and "delaying gratification" as additional keywords in
+  `data/contested_findings.json`.
+
+After all three fixes: 9/12 (75%). The 3 remaining failures are now each a distinct, understood,
+*reproducible* limitation rather than something to keep patching:
+
+- **`flag3` still fails** on a later run, with an answer that used neither "delay...gratification"
+  in any form nor any other listed keyword — just "self-control." No finite keyword list catches
+  every paraphrase; this is the exact tradeoff documented above under "Contested-findings
+  matching," now demonstrated twice.
+- **`f1` and `f4` both fail on a genuine retrieval gap**, not a wrong answer. This paper has three
+  separate "Subjects" sections and multiple similarly-structured multi-condition results, and
+  top-4 retrieval doesn't reliably surface the *specific* one a narrow question asks about — the
+  model's answers in both cases show real, careful reasoning about what it *was* given (in `f1`'s
+  case, correctly inferring which experiment two other retrieved sections belonged to) rather than
+  fabricating the missing piece. That's the `RETRIEVAL_K = 4` tradeoff from the chunking section
+  above, made concrete.
+
+Stopped iterating at 75% rather than continuing to tune the eval toward 100% — every remaining
+failure is now a named, reproducible, honestly-explained limitation of the architecture, not a bug.
+Chasing a higher number from here would mean either overfitting these specific 12 questions to this
+one paper's quirks, or inflating `RETRIEVAL_K` for no reason beyond making one eval pass. A 75%
+with three explained failure categories is a more credible number than a suspiciously clean 100%
+would be after three rounds of tuning.
+
 ## Note: this repo's git history was rewritten on 2026-09-23
 
 Two things got fixed after the fact, before this repo was ever made public:

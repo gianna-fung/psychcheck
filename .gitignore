@@ -6,6 +6,11 @@
 data/uploads/
 data/chroma/
 
+# Copyrighted eval fixture PDFs -- kept locally to actually run eval/run_eval.py,
+# but not redistributed. See the _fixture_removed note in eval/questions.json for
+# why this was deliberately stripped from git history once already.
+eval/fixtures/
+
 # Python
 __pycache__/
 *.pyc
