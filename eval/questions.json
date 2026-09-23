@@ -1,6 +1,7 @@
 {
-  "_note": "Hand-written eval question set for PsychCheck. Every expected_key_facts entry was checked against the actual extracted PDF text (pulled with PyPDFLoader directly, not guessed from memory of the paper). Run with `python eval/run_eval.py`.",
+  "_note": "Hand-written eval question set for PsychCheck. Every expected_key_facts entry was checked against the actual extracted PDF text (pulled with PyPDFLoader directly, not guessed from memory of the paper).",
 
+  "_fixture_removed": "The source PDF this eval set was written and run against is intentionally NOT included in this repo -- it's a copyrighted 1972 journal article, and redistributing a full copy wasn't worth the copyright gray area. eval/results.json still has the real answers from the last run against it. To re-run this eval yourself, get your own copy of the paper (citation below), save it wherever fixture_path points, and run `python eval/run_eval.py`.",
   "source_citation": "Mischel, W., Ebbesen, E. B., & Zeiss, A. R. (1972). Cognitive and attentional mechanisms in delay of gratification. Journal of Personality and Social Psychology, 21(2), 204-218.",
   "fixture_path": "eval/fixtures/mischel_ebbesen_zeiss_1972.pdf",
 

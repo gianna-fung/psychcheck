@@ -177,6 +177,27 @@ happened to trigger, but a 12-question eval run did. Fixed by using `response.te
 string, no matter how many content blocks came back. This is exactly why the eval exists: it ran
 enough real questions to surface a bug that manual spot-checking hadn't.
 
+## Note: this repo's git history was rewritten on 2026-09-23
+
+Two things got fixed after the fact, before this repo was ever made public:
+
+1. **Commit author identity.** This machine's global git config had an unrelated name/email
+   (leftover from something else set up on it previously) that every commit in this repo had been
+   silently inheriting, since nothing here had ever overridden it locally. Fixed going forward by
+   setting the identity at the repo level instead of relying on the global default, and rewrote
+   the 6 existing commits to match.
+2. **A copyrighted PDF.** `eval/fixtures/` briefly held a full copy of the 1972 journal article
+   the eval set is written against, added for reproducibility without thinking through that
+   redistributing a full copy of a copyrighted paper isn't something to do casually in a public
+   repo. Removed from every commit, not just the latest one — see the note in `eval/questions.json`
+   for how to re-run the eval against your own copy.
+
+Both were fixed with `git filter-repo` (strips content from every commit, not just adds a new one
+on top that merely hides it going forward) and a force-push, done before this repo had any forks,
+external clones, or open pull requests — the one window where a history rewrite is actually final
+rather than just cosmetic. Original commit dates were preserved; only the author identity and the
+one file changed.
+
 ---
 
 *(This file grows as the project grows.)*
