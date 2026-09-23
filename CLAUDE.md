@@ -221,6 +221,64 @@ one paper's quirks, or inflating `RETRIEVAL_K` for no reason beyond making one e
 with three explained failure categories is a more credible number than a suspiciously clean 100%
 would be after three rounds of tuning.
 
+## Second eval set found a real production bug, not just an eval quirk
+
+Added `eval/questions_social_priming.json` — 8 more questions against a second paper (Doyen,
+Klein, Pichon, & Cleeremans, 2012, a failed replication of Bargh et al.'s "elderly words make you
+walk slower" study), to check the app against a different paper and a different contested topic
+than the marshmallow one. Unlike the first paper, this one is CC-BY licensed (PLOS ONE), so
+`eval/fixtures/doyen_klein_pichon_cleeremans_2012.pdf` is safely committed, not gitignored.
+
+`eval/run_eval.py` was generalized to discover and run every `eval/questions*.json` file
+automatically — adding a new paper to compare against is just dropping in a new file, no changes
+needed to the runner.
+
+**The first run scored 3/8, and one answer was visibly wrong in an alarming way**: asked about
+Experiment 2's experimenter conditions, the app's answer said it found content from "two different
+papers" — one about delayed gratification in children (the *other* eval's paper), mixed into an
+answer that should only have seen the priming paper. That's not a subtle grading issue, that's the
+wrong paper's content leaking into an answer.
+
+Traced it to `build_vectorstore()` in `src/pipeline.py`: `Chroma.from_documents(...)` was called
+with no `collection_name`, so every call defaulted to the same collection name Chroma uses when
+none is given (`"langchain"`). Confirmed by direct reproduction — building two vectorstores from
+two unrelated one-sentence documents in the same Python process, then querying the *second* one,
+returned content from the *first* one too. **This is a real bug in the shipped app, not just an
+eval artifact**: in a single long-running Streamlit server process, every new paper a user uploads
+would silently add its chunks to the same collection as every paper uploaded before it in that
+session, instead of getting a genuinely isolated vectorstore — meaning retrieval for a later
+upload could pull in chunks from an earlier, completely unrelated paper. `eval/run_eval.py`
+running two papers back-to-back in one process is exactly the condition that exposes this; asking
+one question about one paper right after upload (the only thing manually tested in the browser so
+far) never would have. Fixed by generating a fresh UUID as `collection_name` on every call — this
+is the same "the eval ran enough real cases to surface something manual testing hadn't" lesson as
+the `response.content`-is-a-list bug above, at a higher stakes level this time.
+
+**After the fix, the social-priming score didn't move (still 3/8)** — worth stating plainly,
+because it proves contamination wasn't the cause of most of those failures, and it would have been
+easy to declare victory on the fix and not check. Inspecting each answer individually: `sp_f4`'s
+answer was now completely clean (no more mixed papers) and factually excellent, but still failed
+grading for omitting one secondary detail ("5 participants per experimenter") that wasn't really
+what the question asked about — the exact same over-strict-grading mistake already fixed once in
+`questions.json`, repeated here because this eval set was written faster. `sp_f3` had the same
+issue. `sp_flag1` and `sp_flag2` both failed because their (accurate, well-reasoned) answers cited
+"Bargh et al." — completely normal academic shorthand — while the keyword list only recognized the
+full string "bargh chen burrows". Fixed the two grading criteria (loosened to substance) and added
+"bargh" and "behavioral priming" as keywords for `social_priming_elderly_walking`.
+
+**That keyword fix immediately created a new, different failure**, and this is worth keeping
+rather than chasing away: `sp_noflag1` ("how far apart were the two infrared sensors") started
+failing because its answer mentioned "matching the distance used in the original Bargh et al.
+study" — a purely incidental citation, now enough to trip the broadened keyword. This is the exact
+false-positive half of the tradeoff the false-negative fix was always going to risk; "bargh" is a
+distinctive enough surname that keeping it is still a net improvement (fixed two real misses,
+costs one narrow false positive), but the tradeoff itself doesn't disappear just because one
+instance of it was fixed. Final combined result across both eval sets: **15/20 (75%)**, with every
+remaining failure now a named example of one of four categories: two retrieval-completeness gaps
+(`f1`/`f4`, `sp_f2`), one keyword false negative (`flag3`), and one keyword false positive
+(`sp_noflag1`) — both directions of the same documented tradeoff, each demonstrated concretely
+rather than just described in the abstract.
+
 ## Note: this repo's git history was rewritten on 2026-09-23
 
 Two things got fixed after the fact, before this repo was ever made public:

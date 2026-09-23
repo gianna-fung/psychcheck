@@ -1,0 +1,66 @@
+[
+  {
+    "id": "sp_f1",
+    "category": "factual",
+    "question": "How many participants took part in Experiment 1, and what was their average age?",
+    "answer": "According to the excerpt on page 2, 120 undergraduate Belgian French speaking students took part in Experiment 1, with an age range of 20\u201334 years and an average age of 21.9 years.",
+    "passed": true,
+    "detail": "covered: 120 undergraduate students, Belgian French-speaking, average age 21.9 (range 20-34)"
+  },
+  {
+    "id": "sp_f2",
+    "category": "factual",
+    "question": "What method did Experiment 1 use to measure participants' walking speed?",
+    "answer": "Experiment 1 used the infrared gate to measure participants' walking speed, referred to as \"objective timing\" (Page 3).",
+    "passed": false,
+    "detail": "MISSING: two infrared sensors hidden in the hallway (only mentioned generically as 'infrared gate'), 9.75 meters apart, explicit contrast with the original study's manual stopwatch"
+  },
+  {
+    "id": "sp_f3",
+    "category": "factual",
+    "question": "What did Experiment 1 find regarding the effect of priming on walking speed?",
+    "answer": "According to the paper, Experiment 1 was a replication attempt of Bargh et al.'s original study, using automated timing methods and a larger sample than the original \u2014 but it **failed to show priming**. Specifically, the authors state they \"were not able to replicate Bargh et al's [1] automatic effect of priming on walking speed\" (Page 6), leading them to assume that some crucial factors in the paradigm had remained unidentified, which then motivated Experiment 2 to explore what those factors might be (Pages 1 and 6).",
+    "passed": true,
+    "detail": "covered: Experiment 1 failed to replicate Bargh et al.'s original priming effect on walking speed"
+  },
+  {
+    "id": "sp_f4",
+    "category": "factual",
+    "question": "In Experiment 2, what was the key difference between the two experimenter conditions?",
+    "answer": "In Experiment 2, the two experimenter conditions differed in the **expectations experimenters held about how the prime would affect participants' walking speed**. Specifically, experimenters were led to expect either a \"Slow\" outcome (i.e., that primed participants would walk more slowly, consistent with Bargh et al.'s original elderly-priming effect) or a \"Fast\" outcome. These expectations were induced through a one-hour briefing and persuasion session before testing began, and reinforced by having the experimenter's first \"participant\" actually be a confederate who was covertly instructed to behave in the manner the experimenter expected (p. 3).\n\nCritically, in this design, participants' condition (Prime vs. No-Prime) was made salient to the experimenter, allowing the researchers to test whether experimenter expectations about the direction of the effect (slow vs. fast) would influence the results\u2014essentially examining experimenter-expectancy effects rather than a genuine priming effect.\n\nThe results (p. 4) showed that the priming effect on objective walking speed was replicated only in the Slow experimenter condition (Prime M = 6.95 vs. No-Prime M = 6.52, p = .014), but not in the Fast experimenter condition (Prime M = 6.07 vs. No-Prime M = 6.01, p = .636). There was also a main effect of experimenter condition, with participants tested by Slow-condition experimenters walking slower overall than those tested by Fast-condition experimenters (p < .001). This suggests that the experimenters' expectations, rather than the priming manipulation itself, drove the observed differences in walking speed.",
+    "passed": true,
+    "detail": "covered: half of experimenters were told primed participants would walk SLOWER (the 'Slow' condition), the other half were told participants would walk FASTER (the 'Fast' condition), the first participant each experimenter tested was a confederate instructed to act in the manner the experimenter expected, to help shape that experimenter's belief"
+  },
+  {
+    "id": "sp_flag1",
+    "category": "should_flag",
+    "question": "Does exposure to words related to old age cause people to unconsciously walk slower, according to this research?",
+    "answer": "Based on the excerpts, the answer is nuanced rather than a simple yes or no:\n\n**Experiment 1** (which used more objective/better timing methods, specifically infrared sensors) **yielded null results**\u2014meaning exposure to old-age-related words did *not* cause participants to walk slower (Page 5).\n\n**Experiment 2**, however, did successfully replicate Bargh et al.'s original priming effect, showing that participants exposed to old-age-related words *did* walk slower (Page 5).\n\nAdditionally, the excerpts note that 95% of participants in the Prime condition reported no awareness of a link between the scrambled sentences task and their subsequent walking behavior, consistent with the idea that any such effect\u2014when it did occur\u2014was unconscious (Page 5).\n\nThe paper also raises theoretical doubts about the automaticity of this effect, suggesting that from the perspective of the semantic priming literature, the concept of \"being old\" may be \"too weak to automatically prime a behavior that is further only indirectly related to old age\" without additional contextual cues (Page 1).\n\n**In summary**, the excerpts do not give a straightforward confirmation that the effect is real and reliable. The results were mixed across the two experiments reported in this study\u2014one replicated the effect, one did not\u2014suggesting the phenomenon may not be as robust or automatic as originally claimed by Bargh et al.",
+    "passed": true,
+    "detail": "expected flag 'social_priming_elderly_walking', got ['social_priming_elderly_walking']"
+  },
+  {
+    "id": "sp_flag2",
+    "category": "should_flag",
+    "question": "Is behavioral priming from stereotype-related words a well-established, reliably replicable finding in psychology?",
+    "answer": "Based on the excerpts, the paper suggests that behavioral priming from stereotype-related words (specifically Bargh et al.'s 1996 finding that exposure to old-age-related words causes slower walking) is **not** a well-established, reliably replicated finding. Key evidence from the text includes:\n\n1. **Limited replication**: The paper notes that \"the finding, influential as it is, was only replicated twice so far, with neither replication being exact\" (Page 1). This indicates a scarcity of direct replications despite the finding's influence and widespread citation.\n\n2. **Conceptual tension with neuroscience literature**: The authors point out that the assumption underlying such priming\u2014that high-level semantic priming can occur automatically and outside conscious awareness\u2014\"is almost taken for granted\" in social cognition research, but \"conflicts with evidences accumulated in cognitive neuroscience\" (Page 1). Specifically, several cited authors argue that semantic priming requires both top-down attention to the prime and sufficient bottom-up stimulus strength/saliency\u2014conditions that were reportedly absent in Bargh et al.'s original experiments 2a and 2b (Page 1).\n\n3. **Motivation for the current study**: The paper's authors explicitly designed their study to attempt a replication of Bargh et al.'s original experiments, which itself implies that the finding's robustness had not been firmly established through repeated, exact replication (Page 1).\n\nThe excerpts do not provide the results of the authors' own replication attempt, so I cannot state from this material alone whether their study confirmed or failed to confirm the original effect. However, the framing in these excerpts strongly suggests that the authors viewed the finding as under-replicated and theoretically questionable given related cognitive neuroscience research, rather than as a well-established and reliably replicable phenomenon.",
+    "passed": true,
+    "detail": "expected flag 'social_priming_elderly_walking', got ['social_priming_elderly_walking']"
+  },
+  {
+    "id": "sp_noflag1",
+    "category": "should_not_flag",
+    "question": "How far apart were the two infrared sensors in the hallway?",
+    "answer": "The two infrared sensors were separated by 9.75 meters, matching the distance used in the original Bargh et al. study (Page 2).",
+    "passed": false,
+    "detail": "unexpectedly flagged: ['social_priming_elderly_walking']"
+  },
+  {
+    "id": "sp_noflag2",
+    "category": "should_not_flag",
+    "question": "How many experimenters were recruited for Experiment 2, and how many participants did each one test?",
+    "answer": "Based on the excerpts, 10 experimenters (age range 20\u201324 years, average 21.7) were recruited for Experiment 2, and each individual experimenter tested 5 participants, who were randomly assigned to either the Prime or No-Prime condition (page 3).",
+    "passed": true,
+    "detail": "no flags fired"
+  }
+]

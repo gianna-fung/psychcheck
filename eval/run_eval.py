@@ -1,15 +1,21 @@
 """
-Runs eval/questions.json against the real pipeline and grades the results.
+Runs every eval/questions*.json file against the real pipeline and grades the
+results, paper by paper, plus a combined total across all of them.
 
 Usage: python eval/run_eval.py
 (Run from the repo root, or anywhere -- paths below are resolved relative to this
 file, not the current working directory, same reasoning as contested_findings.py.)
 
+Why multiple files instead of one big questions.json: each eval set is tied to one
+specific paper (its own fixture_path + source_citation), and a paper's questions only
+make sense asked against that paper's own vectorstore. Splitting by file means adding
+a new paper to compare against is just adding a new eval/questions_<name>.json --
+no changes needed here, this script picks it up automatically.
+
 This makes REAL, BILLED API calls: one per question to generate an answer, plus one
-more per factual question to grade that answer. For the 12 questions in
-questions.json that's 12 + 6 = 18 calls -- at the per-call costs estimated during
-development (a few cents at most per call), a full run costs well under a dollar,
-so don't be afraid to re-run this after every prompt tweak.
+more per factual question to grade that answer. At the per-call costs estimated
+during development (a few cents at most per call), a full run across every eval set
+costs well under a dollar, so don't be afraid to re-run this after every prompt tweak.
 
 Why grading needs a second LLM call, not just string matching:
 Checking whether an answer correctly conveys "children waited much longer when
@@ -50,7 +56,7 @@ from pipeline import (  # noqa: E402
     split_into_chunks,
 )
 
-QUESTIONS_PATH = Path(__file__).resolve().parent / "questions.json"
+EVAL_DIR = Path(__file__).resolve().parent
 
 
 class FactualGrade(BaseModel):
@@ -115,8 +121,8 @@ def grade_factual_answer(
     )
 
 
-def run_eval() -> list[QuestionResult]:
-    with open(QUESTIONS_PATH, encoding="utf-8") as f:
+def run_eval(questions_path: Path) -> list[QuestionResult]:
+    with open(questions_path, encoding="utf-8") as f:
         eval_data = json.load(f)
 
     fixture_path = Path(__file__).resolve().parent.parent / eval_data["fixture_path"]
@@ -171,9 +177,9 @@ def run_eval() -> list[QuestionResult]:
     return results
 
 
-def print_report(results: list[QuestionResult]) -> None:
+def print_report(results: list[QuestionResult], title: str) -> None:
     print("\n" + "=" * 70)
-    print("EVAL REPORT")
+    print(title)
     print("=" * 70)
 
     for category in ["factual", "should_flag", "should_not_flag"]:
@@ -188,19 +194,11 @@ def print_report(results: list[QuestionResult]) -> None:
             print(f"       {r.detail}")
 
     total_passed = sum(r.passed for r in results)
-    print(f"\n{'=' * 70}")
-    print(f"OVERALL: {total_passed}/{len(results)} passed ({100 * total_passed / len(results):.0f}%)")
-    print("=" * 70)
+    print(f"\n{'-' * 70}")
+    print(f"{title}: {total_passed}/{len(results)} passed ({100 * total_passed / len(results):.0f}%)")
 
 
-if __name__ == "__main__":
-    results = run_eval()
-    print_report(results)
-
-    # Also save the full detail (including complete answer text, not just the
-    # pass/fail summary printed above) so a specific failure can be inspected later
-    # without re-running the whole eval.
-    output_path = Path(__file__).resolve().parent / "results.json"
+def save_results(results: list[QuestionResult], output_path: Path) -> None:
     with open(output_path, "w", encoding="utf-8") as f:
         json.dump(
             [
@@ -217,4 +215,35 @@ if __name__ == "__main__":
             f,
             indent=2,
         )
-    print(f"\nFull results written to {output_path}")
+    print(f"Results written to {output_path}")
+
+
+if __name__ == "__main__":
+    # Every eval/questions*.json is its own eval set against its own paper --
+    # sorted so the run order (and therefore report order) is stable between runs.
+    questions_files = sorted(EVAL_DIR.glob("questions*.json"))
+    if not questions_files:
+        raise SystemExit(f"No eval/questions*.json files found in {EVAL_DIR}")
+
+    all_results: list[QuestionResult] = []
+
+    for questions_path in questions_files:
+        results = run_eval(questions_path)
+        all_results.extend(results)
+
+        print_report(results, title=f"EVAL REPORT: {questions_path.name}")
+
+        # results.json for questions.json, results_social_priming.json for
+        # questions_social_priming.json, etc. -- one results file per eval set.
+        results_name = questions_path.stem.replace("questions", "results", 1) + ".json"
+        save_results(results, EVAL_DIR / results_name)
+
+    if len(questions_files) > 1:
+        total_passed = sum(r.passed for r in all_results)
+        print(f"\n{'=' * 70}")
+        print(
+            f"COMBINED TOTAL ({len(questions_files)} eval sets): "
+            f"{total_passed}/{len(all_results)} passed "
+            f"({100 * total_passed / len(all_results):.0f}%)"
+        )
+        print("=" * 70)

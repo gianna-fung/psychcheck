@@ -9,6 +9,7 @@ bad output.
 
 from __future__ import annotations
 
+import uuid
 from dataclasses import dataclass
 from pathlib import Path
 
@@ -133,9 +134,20 @@ def split_into_chunks(pages: list[Document]) -> list[Document]:
 def build_vectorstore(chunks: list[Document]) -> Chroma:
     """Embeds every chunk and stores them in an in-memory Chroma collection. No
     `persist_directory` is passed — see CLAUDE.md's "Vector store" section for why a
-    fresh, throwaway vectorstore per upload is the right call here."""
+    fresh, throwaway vectorstore per upload is the right call here.
+
+    `collection_name` is set to a fresh UUID on every call -- without it, Chroma
+    defaults every collection to the same name ("langchain"), so a second call to
+    this function in the same process doesn't create an isolated store, it ADDS to
+    whatever's already in that shared collection. Confirmed by direct reproduction:
+    two unrelated documents ended up in the same collection, and querying the second
+    one returned chunks from the first. A unique name per call is what actually makes
+    "fresh vectorstore per upload" true, rather than just true for the first upload
+    in a given process."""
     embeddings = HuggingFaceEmbeddings(model_name=EMBEDDING_MODEL_NAME)
-    return Chroma.from_documents(documents=chunks, embedding=embeddings)
+    return Chroma.from_documents(
+        documents=chunks, embedding=embeddings, collection_name=str(uuid.uuid4())
+    )
 
 
 def get_llm() -> ChatAnthropic:

@@ -1,0 +1,84 @@
+{
+  "_note": "Second eval set, added to test the app against a different paper on a different contested topic (social priming) than the first set (marshmallow test). Every expected_key_facts entry was checked against the actual extracted PDF text via PyPDFLoader, not guessed from memory.",
+
+  "source_citation": "Doyen, S., Klein, O., Pichon, C. L., & Cleeremans, A. (2012). Behavioral priming: It's all in the mind, but whose mind? PLoS ONE, 7(1), e29081.",
+  "fixture_path": "eval/fixtures/doyen_klein_pichon_cleeremans_2012.pdf",
+  "fixture_license_note": "Published under CC-BY -- unlike the first eval set's paper, this one IS safe to keep committed to the repo (see the license statement PLOS ONE prints on every article).",
+
+  "questions": [
+    {
+      "id": "sp_f1",
+      "category": "factual",
+      "question": "How many participants took part in Experiment 1, and what was their average age?",
+      "expected_key_facts": [
+        "120 undergraduate students",
+        "Belgian French-speaking",
+        "average age 21.9 (range 20-34)"
+      ]
+    },
+    {
+      "id": "sp_f2",
+      "category": "factual",
+      "question": "What method did Experiment 1 use to measure participants' walking speed?",
+      "notes": "Left as-is deliberately. The app's answer correctly says 'infrared gate (infrared sensors)' and 'objective timing' -- true and grounded -- but doesn't include the specific 9.75-meter distance, because that detail lives in a different chunk than the one retrieval returned for this question. This is a genuine retrieval-completeness gap (same category as f1/f4 in questions.json), not a grading or question-wording issue, so it's kept as a documented limitation rather than reworded to dodge it.",
+      "expected_key_facts": [
+        "two infrared sensors hidden in the hallway",
+        "9.75 meters apart",
+        "an automated/objective measurement, in contrast to the original study's manual stopwatch"
+      ]
+    },
+    {
+      "id": "sp_f3",
+      "category": "factual",
+      "question": "What did Experiment 1 find regarding the effect of priming on walking speed?",
+      "notes": "Originally required the exact phrase 'no significant difference between the Prime and No-Prime groups'. The app's answer stated the same finding correctly ('failed to replicate...the automatic effect of priming on walking speed') without that specific statistical framing -- grading exact wording, not substance. Loosened to the core claim, same fix applied to f3/f5 in questions.json earlier.",
+      "expected_key_facts": [
+        "Experiment 1 failed to replicate Bargh et al.'s original priming effect on walking speed"
+      ]
+    },
+    {
+      "id": "sp_f4",
+      "category": "factual",
+      "question": "In Experiment 2, what was the key difference between the two experimenter conditions?",
+      "notes": "Originally also required 'each experimenter tested 5 participants' as an expected fact, which is a true but secondary procedural detail -- not the actual 'key difference between the two conditions' the question asked about. The app's answer covered the actual key difference (the expectation manipulation + confederate priming) correctly and in detail but failed for omitting that one secondary number. Dropped it from expected facts.",
+      "expected_key_facts": [
+        "half of experimenters were told primed participants would walk SLOWER (the 'Slow' condition)",
+        "the other half were told participants would walk FASTER (the 'Fast' condition)",
+        "the first participant each experimenter tested was a confederate instructed to act in the manner the experimenter expected, to help shape that experimenter's belief"
+      ]
+    },
+    {
+      "id": "sp_flag1",
+      "category": "should_flag",
+      "question": "Does exposure to words related to old age cause people to unconsciously walk slower, according to this research?",
+      "expected_flag_id": "social_priming_elderly_walking",
+      "expected_answer_behavior": "A good answer should reflect the paper's actual, nuanced finding -- Experiment 1 found NO priming effect at all, and Experiment 2 only found the effect when experimenters believed/expected it to happen (and the effect reversed when experimenters expected the opposite), suggesting experimenter expectancy rather than pure unconscious priming. Should still flag given the topic."
+    },
+    {
+      "id": "sp_flag2",
+      "category": "should_flag",
+      "question": "Is behavioral priming from stereotype-related words a well-established, reliably replicable finding in psychology?",
+      "expected_flag_id": "social_priming_elderly_walking",
+      "expected_answer_behavior": "Should flag given the topic touches the contested finding directly, and a good answer should reflect the paper's own conclusion that the effect is more complicated/contested than the original framing suggested."
+    },
+    {
+      "id": "sp_noflag1",
+      "category": "should_not_flag",
+      "question": "How far apart were the two infrared sensors in the hallway?",
+      "expected_key_facts": [
+        "9.75 meters"
+      ],
+      "risk_note": "Narrow procedural/numeric fact, chosen to avoid needing priming-related keywords in a correct answer -- same caveat as the first eval set's noflag questions: topic-setting language in the answer could still trip the matcher."
+    },
+    {
+      "id": "sp_noflag2",
+      "category": "should_not_flag",
+      "question": "How many experimenters were recruited for Experiment 2, and how many participants did each one test?",
+      "expected_key_facts": [
+        "10 experimenters",
+        "each tested 5 participants"
+      ],
+      "risk_note": "Same caveat as sp_noflag1."
+    }
+  ]
+}

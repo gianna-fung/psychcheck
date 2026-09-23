@@ -6,10 +6,13 @@
 data/uploads/
 data/chroma/
 
-# Copyrighted eval fixture PDFs -- kept locally to actually run eval/run_eval.py,
-# but not redistributed. See the _fixture_removed note in eval/questions.json for
-# why this was deliberately stripped from git history once already.
-eval/fixtures/
+# Copyrighted eval fixture -- kept locally to actually run eval/run_eval.py, but not
+# redistributed. See the _fixture_removed note in eval/questions.json for why this
+# was deliberately stripped from git history once already. NOTE: this excludes only
+# this one file, not the whole eval/fixtures/ directory -- other fixtures (e.g. the
+# CC-BY-licensed one for questions_social_priming.json) are fine to commit and
+# should NOT be caught by a broader eval/fixtures/ rule.
+eval/fixtures/mischel_ebbesen_zeiss_1972.pdf
 
 # Python
 __pycache__/
